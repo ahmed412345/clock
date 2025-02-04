@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>clock</title>
+		<style>
+			body {
+				--width: 600px;
+				--height: 600px;
+				margin: 0;
+				display: flex;
+				height: 100vh;
+				justify-content: center;
+				align-items: center;
+			}
+			.clock {
+				box-sizing: border-box;
+				background-color: #347928;
+				border-radius: 50%;
+				width: var(--width);
+				height: var(--height);
+				box-shadow: 1px 1px 15px black;
+				color: rgb(255, 255, 255);
+				font-size: 2rem;
+				font-weight: bold;
+				position: relative;
+			}
+			i {
+				display: block;
+				width: calc(var(--width) / 10);
+				height: calc(var(--width) / 10);
+				background-color: goldenrod;
+				border-radius: 50%;
+				position: absolute;
+				top: 50%;
+				left: 50%;
+				transform: translate(-50%, -50%);
+				z-index: 1;
+			}
+			span {
+				position: absolute;
+				text-shadow: 1px 1px 2px black;
+			}
+			.clock span:nth-child(1) {
+				right: 25%;
+				top: 8%;
+			}
+			.clock span:nth-child(2) {
+				right: 8%;
+				top: 26%;
+			}
+			.clock span:nth-child(3) {
+				top: 50%;
+				transform: translateY(-50%);
+				right: 2%;
+			}
+			.clock span:nth-child(4) {
+				right: 8%;
+				bottom: 26%;
+			}
+			.clock span:nth-child(5) {
+				right: 25%;
+				bottom: 8%;
+			}
+			.clock span:nth-child(6) {
+				bottom: 2%;
+				left: 50%;
+				transform: translate(-50%);
+			}
+			.clock span:nth-child(7) {
+				left: 25%;
+				bottom: 8%;
+			}
+			.clock span:nth-child(8) {
+				left: 8%;
+				bottom: 26%;
+			}
+			.clock span:nth-child(9) {
+				top: 50%;
+				transform: translateY(-50%);
+				left: 2%;
+			}
+			.clock span:nth-child(10) {
+				left: 8%;
+				top: 26%;
+			}
+			.clock span:nth-child(11) {
+				left: 25%;
+				top: 8%;
+			}
+			.clock span:nth-child(12) {
+				top: 2%;
+				left: 50%;
+				transform: translate(-50%);
+			}
+			.scorpion {
+				display: block;
+				width: calc(var(--width) / 25);
+				position: absolute;
+				top: 50%;
+				left: 50%;
+				transform-origin: 50% 100%;
+				transform: translate(-50%, -100%);
+				border-radius: 10px;
+				box-shadow: 1px 1px 10px black;
+			}
+			.hour {
+				height: calc(var(--width) / 3.5);
+				background-color: #c0eba6;
+			}
+			.minutes {
+				height: calc(var(--width) / 3);
+				background-color: #fffbe6;
+			}
+			.second {
+				width: calc(var(--width) / 30);
+				height: calc(var(--width) / 2.6);
+				background-color: #fccd2a;
+			}
+			#btn {
+				position: absolute;
+				top: 10px;
+				right: 10px;
+				cursor: pointer;
+			}
+			@media screen and (max-width: 600px) {
+				html {
+					font-size: 10px;
+				}
+				body {
+					--width: 300px;
+					--height: 300px;
+				}
+			}
+		</style>
+	</head>
+	<body>
+		<div class="clock">
+			<span>1</span>
+			<span>2</span>
+			<span>3</span>
+			<span>4</span>
+			<span>5</span>
+			<span>6</span>
+			<span>7</span>
+			<span>8</span>
+			<span>9</span>
+			<span>10</span>
+			<span>11</span>
+			<span>12</span>
+			<i></i>
+			<span class="hour scorpion"></span>
+			<span class="minutes scorpion"></span>
+			<span class="second scorpion"></span>
+		</div>
+		<img id="btn" src="assist/icon/volume-mute2.svg" />
+		<audio id="clockSound" src="assist/audio/clock-tick_100bpm_C.wav"></audio>
+		<script>
+			let hourS = document.querySelector(".hour");
+			let minutesS = document.querySelector(".minutes");
+			let secondS = document.querySelector(".second");
+			let isclicked = false;
+			btn.onclick = () => {
+				isclicked = isclicked ? false : true;
+				btn.src = btn.src.includes("mute2") ? "assist/icon/volume-medium.svg": "assist/icon/volume-mute2.svg";
+			};
+			function rotateScorpion(scorpion, scoDeg) {
+				scorpion.style.transform = `translate(-50%, -100%) rotate(${scoDeg}deg)`;
+			}
+			setInterval(() => {
+				let currentTime = new Date();
+				let secondDeg = currentTime.getSeconds() * 6;
+				let minutesDeg = currentTime.getMinutes() * 6 + secondDeg / 60;
+				let hourDeg = currentTime.getHours() > 12 ? (currentTime.getHours() - 12) * 30 + minutesDeg / 12 : currentTime.getHours() * 30 + minutesDeg / 12;
+				rotateScorpion(hourS, hourDeg);
+				rotateScorpion(minutesS, minutesDeg);
+				rotateScorpion(secondS, secondDeg);
+				if (isclicked) {
+					clockSound.currentTime = 0;
+					clockSound.play();
+				}
+			}, 1000);
+		</script>
+	</body>
+</html>
