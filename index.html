@@ -162,7 +162,7 @@
 			let secondS = document.querySelector(".second");
 			let isclicked = false;
 			btn.onclick = () => {
-				isclicked = isclicked ? false : true;
+				isclicked = !isclicked
 				btn.src = btn.src.includes("mute2") ? "assist/icon/volume-medium.svg": "assist/icon/volume-mute2.svg";
 			};
 			function rotateScorpion(scorpion, scoDeg) {
@@ -177,7 +177,6 @@
 				rotateScorpion(minutesS, minutesDeg);
 				rotateScorpion(secondS, secondDeg);
 				if (isclicked) {
-					clockSound.currentTime = 0;
 					clockSound.play();
 				}
 			}, 1000);
